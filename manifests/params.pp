@@ -7,6 +7,7 @@ class cobbler::params {
     'RedHat': {
       $service_name = 'cobblerd'
       $package_name = 'cobbler'
+      $use_epel = true
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, module ${module_name} currently only supports osfamily RedHat")

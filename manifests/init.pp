@@ -11,6 +11,10 @@
 #   - $package_name [type: string]
 #     Name of the installation package, defaults to 'cobbler'
 #
+#   - $use_epel [type: bool]
+#     Wether to install epel-release or not. Defaults to true. If not using epel
+#     you have to provide a yumrepo with the cobbler rpm by yourself.
+#
 #   - $package_ensure [type: string]
 #     Defaults to 'present', buy any version can be set
 #
@@ -93,6 +97,7 @@ class cobbler (
   $service_name       = $cobbler::params::service_name,
   $package_name       = $cobbler::params::package_name,
   $package_ensure     = $cobbler::params::package_ensure,
+  $use_epel           = $cobbler::params::use_epel,
   $distro_path        = $cobbler::params::distro_path,
   $manage_dhcp        = $cobbler::params::manage_dhcp,
   $dhcp_dynamic_range = $cobbler::params::dhcp_dynamic_range,
