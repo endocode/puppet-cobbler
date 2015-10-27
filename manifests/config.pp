@@ -8,7 +8,6 @@ class cobbler::config {
   }
   file { '/etc/httpd/conf.d/proxy_cobbler.conf':
     content => template('cobbler/proxy_cobbler.conf.erb'),
-    notify  => Service[$cobbler::apache_service],
   }
   
   file { $cobbler::distro_path :

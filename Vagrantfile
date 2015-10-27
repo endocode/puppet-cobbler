@@ -27,13 +27,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define 'centos-6' do |centos|
     centos.vm.box = 'puppetlabs/centos-6.6-64-puppet'
-    centos.vm.provision 'shell', inline: 'puppet module install puppetlabs-apache'
     centos.vm.provision 'puppet' do |puppet|
       puppet.manifests_path = 'manifests'
       puppet.manifest_file = 'init.pp'
       puppet.options = [
           '--verbose',
-          "-e 'class { cobbler: }'"
+          "-e 'class { cobbler: } class { cobbler::web: }'"
       ]
     end
   end

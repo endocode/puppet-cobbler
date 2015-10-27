@@ -124,12 +124,6 @@ class cobbler (
   $purge_system       = $cobbler::params::purge_system,
 ) inherits cobbler::params {
 
-  # require apache modules
-  include apache
-  include apache::mod::wsgi
-  include apache::mod::proxy
-  include apache::mod::proxy_http
-
   include cobbler::prerequisites
   include cobbler::install
   include cobbler::service
