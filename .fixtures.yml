@@ -1,0 +1,4 @@
+fixtures:
+    repositories:
+    symlinks:
+        cobbler: "#{source_dir}"
