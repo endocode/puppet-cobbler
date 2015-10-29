@@ -7,3 +7,5 @@ RSpec.configure do |c|
   c.manifest_dir = File.join(fixture_path, 'manifests')
   c.environmentpath = File.join(Dir.pwd, 'spec')
 end
+
+at_exit { RSpec::Puppet::Coverage.report! }

@@ -6,11 +6,18 @@ class cobbler::params {
   case $::osfamily {
     'RedHat': {
       $service_name = 'cobblerd'
-      $package_name = 'cobbler'
+      $package_name = ['cobbler', 'tftp-server', 'syslinux']
       $use_epel = true
+      $apache_path = '/etc/httpd/'
+    }
+    'Debian': {
+      $service_name = 'cobblerd'
+      $package_name = 'cobbler'
+      $use_epel     = false
+      $apache_path  = '/etc/apache2/'
     }
     default: {
-      fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, module ${module_name} currently only supports osfamily RedHat")
+      fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, module ${module_name} currently only supports osfamily RedHat & Debian")
     }
   }
   $package_ensure = 'present'

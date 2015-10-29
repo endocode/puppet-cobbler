@@ -1,7 +1,7 @@
 source ENV['GEM_SOURCE'] || "https://rubygems.org"
 
 gem 'rake'
-gem 'puppet', '< 4'
+gem "puppet", ENV['PUPPET_VERSION'] || '< 4'
 gem 'rspec-puppet'
 gem 'beaker'
 gem 'beaker-rspec'

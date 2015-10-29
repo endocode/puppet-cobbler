@@ -29,9 +29,10 @@ RSpec.configure do |c|
     hosts.each do |host|
       # Install module
       copy_module_to(host, :source => proj_root, :module_name => 'cobbler')
-
       # Install dependencies
-      on host, puppet('module','install','puppetlabs-apache'), { :acceptable_exit_codes => [0,1] }
+      #if fact('osfamily') == 'Debian'
+        on host, puppet('module','install','puppetlabs-apt'), { :acceptable_exit_codes => [0,1] }
+        #end
     end
   end
 end
