@@ -9,35 +9,29 @@ class cobbler::config {
   file { '/etc/init.d/cobblerd':
     mode   => '0755',
     source => 'puppet:///modules/cobbler/cobbler.d',
-  }
+  } ->
   file { "${cobbler::apache_path}conf.d/proxy_cobbler.conf":
     content => template('cobbler/proxy_cobbler.conf.erb'),
-  }
+  } ->
 
   file { $cobbler::distro_path :
     ensure => directory,
   }
   file { "${cobbler::distro_path}/kickstarts" :
     ensure => directory,
-  }
+  } ->
   file { '/etc/cobbler/settings':
     content => template('cobbler/settings.erb'),
     require => Package[$cobbler::package_name],
     notify  => Service[$cobbler::service_name],
-  }
+  } ->
   file { '/etc/cobbler/modules.conf':
     content => template('cobbler/modules.conf.erb'),
     require => Package[$cobbler::package_name],
     notify  => Service[$cobbler::service_name],
-  }
-  file { "${cobbler::apache_path}conf.d/distros.conf": content => template('cobbler/distros.conf.erb'), }
+  } ->
+  file { "${cobbler::apache_path}conf.d/distros.conf": content => template('cobbler/distros.conf.erb'), } ->
   file { "${cobbler::apache_path}conf.d/cobbler.conf": content => template('cobbler/cobbler.conf.erb'), }
-
-  # cobbler sync command
-  exec { 'cobblersync':
-    command     => '/usr/bin/cobbler sync',
-    refreshonly => true,
-  }
 
   # purge resources
   if $cobbler::purge_distro == true {
@@ -51,21 +45,5 @@ class cobbler::config {
   }
   if $cobbler::purge_system == true {
     resources { 'cobblersystem':  purge => true, }
-  }
-
-  # include ISC DHCP only if we choose manage_dhcp
-  if $cobbler::manage_dhcp {
-    package { 'dhcp':
-      ensure => present,
-    }
-    service { 'dhcpd':
-      ensure  => running,
-      require => Package['dhcp'],
-    }
-    file { '/etc/cobbler/dhcp.template':
-      content => template('cobbler/dhcp.template.erb'),
-      require => Package[$cobbler::package_name],
-      notify  => Exec['cobblersync'],
-    }
   }
 }

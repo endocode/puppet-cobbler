@@ -128,11 +128,15 @@ class cobbler (
   include cobbler::install
   include cobbler::service
   include cobbler::config
+  include cobbler::dhcp
+  include cobbler::sync
 
   Class['cobbler::prerequisites']->
   Class['cobbler::install'] ->
   Class['cobbler::config'] ->
-  Class['cobbler::service']
+  Class['cobbler::service'] ->
+  Class['cobbler::dhcp'] ->
+  Class['cobbler::sync']
 
 }
 # vi:nowrap:
