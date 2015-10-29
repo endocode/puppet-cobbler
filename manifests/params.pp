@@ -17,7 +17,7 @@ class cobbler::params {
       $apache_path  = '/etc/apache2/'
     }
     default: {
-      fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, module ${module_name} currently only supports osfamily RedHat and Debian")
+      fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, module ${module_name} currently only supports osfamily RedHat & Debian")
     }
   }
   $package_ensure = 'present'

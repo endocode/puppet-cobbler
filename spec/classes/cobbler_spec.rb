@@ -52,13 +52,13 @@ describe 'cobbler' do
   end
 
   context 'unsupported operating system' do
-    ['Solaris'].each do |osfamily|
+    ['Solaris', 'Suse'].each do |osfamily|
       describe 'cobbler class without any parameters on Solaris/Nexenta' do
         let(:facts) {{
           :osfamily        => osfamily,
           }}
 
-          it { expect { should contain_package('cobbler') }.to raise_error(Puppet::Error, /currently only supports osfamily RedHat/) }
+          it { expect { should contain_package('cobbler') }.to raise_error(Puppet::Error, /currently only supports osfamily RedHat & Debian/) }
         end
       end
   end
