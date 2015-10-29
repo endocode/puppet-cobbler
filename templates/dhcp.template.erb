@@ -25,23 +25,15 @@ subnet <%= instance_variable_get("@ipaddress_#{iface}").match(/\d+\.\d+\.\d+/) %
     option subnet-mask          255.255.255.0;
     option routers              <%= instance_variable_get("@ipaddress_#{iface}").match(/\d+\.\d+\.\d+/) %>.1;
     option domain-name          "<%= @domain %>";
-    option domain-name-servers  <%=
-if @nameservers.kind_of?(Array)
-   @nameservers.join(", ")
-elsif (@nameservers.kind_of?(String) && @nameservers != '' )
-   @nameservers
-else
-   puts("127.0.0.1")
-end %>;
-
-
-<% if @dhcp_domain_search -%>
+    option domain-name-servers  <%= @nameservers   .join(", ") -%>;
+<%- if @dhcp_domain_search -%>
     option domain-search        <% if @dhcp_domain_search.kind_of?(String) -%>"<%= @dhcp_domain_search -%>"<% else -%>"<%= @dhcp_domain_search.join("\", \"") -%>"<% end -%>;
-<%- end -%> 
-    <% if dhcp_dynamic_range == 1 then %>
-    range dynamic-bootp         <%= instance_variable_get("@ipaddress_#{iface}").match(/\d+\.\d+\.\d+/) %>.<%= @dhcp_range_start -%> <%= instance_variable_get("@ipaddress_#{iface}").match(/\d+\.\d+\.\d+/) %>.<%= @dhcp_range_end -%>;<% end %>
-    default-lease-time          <%= dhcp_lease_default -%>;
-    max-lease-time              <%= dhcp_lease_max -%>;
+<%- end -%>
+<% if @dhcp_dynamic_range %>
+    range dynamic-bootp         <%= instance_variable_get("@ipaddress_#{iface}").match(/\d+\.\d+\.\d+/) %>.<%= @dhcp_range_start -%> <%= instance_variable_get("@ipaddress_#{iface}").match(/\d+\.\d+\.\d+/) %>.<%= @dhcp_range_end -%>;
+<%- end -%>
+    default-lease-time          <%= @dhcp_lease_default -%>;
+    max-lease-time              <%= @dhcp_lease_max -%>;
     next-server                 $next_server;
     class "pxeclients" {
       match if substring (option vendor-class-identifier, 0, 9) = "PXEClient";
@@ -101,4 +93,3 @@ group {
         #end for
 }
 #end for
-
