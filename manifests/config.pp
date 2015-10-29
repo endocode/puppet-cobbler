@@ -7,7 +7,7 @@ class cobbler::config {
     mode   => '0644',
   }
   file { '/etc/init.d/cobblerd':
-    ensure => present,
+    ensure => file,
     mode   => '0755',
     source => 'puppet:///modules/cobbler/cobbler.d',
   }
