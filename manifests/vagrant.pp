@@ -8,5 +8,5 @@ node  'default' {
     nameservers        => [ '123.123.123.4', '123.123.123.2'],
   }
 
-  class { cobbler::web: }
+  class { 'cobbler::web': }
 }
