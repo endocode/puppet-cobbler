@@ -8,7 +8,7 @@ class cobbler::config {
   }
   file { '/etc/init.d/cobblerd':
     ensure => present,
-    mode    => '755',
+    mode   => '0755',
     source => 'puppet:///modules/cobbler/cobbler.d',
   }
   file { "${cobbler::apache_path}conf.d/proxy_cobbler.conf":
