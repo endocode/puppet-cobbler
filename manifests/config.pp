@@ -34,7 +34,7 @@ class cobbler::config {
     notify  => Service[$cobbler::service_name],
   } ->
   file { "${cobbler::apache_path}conf.d/distros.conf": content => template('cobbler/distros.conf.erb'), } ->
-  file { "${cobbler::apache_path}conf.d/cobbler.conf": content => template('cobbler/cobbler.conf.erb'), } 
+  file { "${cobbler::apache_path}conf.d/cobbler.conf": content => template('cobbler/cobbler.conf.erb'), }
 
   # purge resources
   if $cobbler::purge_distro == true {
