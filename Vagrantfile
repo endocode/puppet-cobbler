@@ -37,4 +37,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
+  config.vm.define "debian" do |debian|
+      debian.vm.box = "puppetlabs/debian-7.8-64-puppet"
+      debian.vm.provision "shell", inline: 'puppet module install puppetlabs-apt'
+      debian.vm.box_version = '1.0.1'
+      debian.vm.provision "puppet" do |puppet|
+        puppet.manifests_path = "manifests"
+        puppet.manifest_file  = "init.pp"
+        puppet.options = [
+          '--verbose',
+          "-e 'class { cobbler: }'"
+        ]
+      end
+    end
+
 end

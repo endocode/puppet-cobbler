@@ -2,9 +2,11 @@ require 'spec_helper'
 
 describe 'cobbler' do
   context 'supported operating systems' do
-    describe "ejabberd class without any parameters on Redhat" do
+    ['Debian','Redhat'].each do |osfamily|
+    describe "cobbler class without any parameters on #{osfamily}" do
       let(:facts) {{
-        :osfamily         => 'Redhat',
+        :osfamily         => osfamily,
+        :lsbdistid        => osfamily,
       }}
 
       it { should compile.with_all_deps }
@@ -16,15 +18,16 @@ describe 'cobbler' do
       it { should contain_class('cobbler::service') }
     end
   end
+  end
 
   context 'unsupported operating system' do
-    ['Debian','Solaris'].each do |osfamily|
-      describe 'ejabberd class without any parameters on Solaris/Nexenta' do
+    ['Solaris'].each do |osfamily|
+      describe 'cobbler class without any parameters on Solaris/Nexenta' do
         let(:facts) {{
           :osfamily        => osfamily,
           }}
 
-          it { expect { should contain_package('ejabberd') }.to raise_error(Puppet::Error, /currently only supports osfamily RedHat/) }
+          it { expect { should contain_package('cobbler') }.to raise_error(Puppet::Error, /currently only supports osfamily RedHat/) }
         end
       end
   end

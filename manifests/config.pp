@@ -6,7 +6,12 @@ class cobbler::config {
     group  => root,
     mode   => '0644',
   }
-  file { '/etc/httpd/conf.d/proxy_cobbler.conf':
+  file { '/etc/init.d/cobblerd':
+    ensure => present,
+    mode    => '755',
+    source => 'puppet:///modules/cobbler/cobbler.d',
+  }
+  file { "${cobbler::apache_path}conf.d/proxy_cobbler.conf":
     content => template('cobbler/proxy_cobbler.conf.erb'),
   }
   
@@ -28,8 +33,8 @@ class cobbler::config {
     require => Package[$cobbler::package_name],
     notify  => Service[$cobbler::service_name],
   }
-  file { '/etc/httpd/conf.d/distros.conf': content => template('cobbler/distros.conf.erb'), }
-  file { '/etc/httpd/conf.d/cobbler.conf': content => template('cobbler/cobbler.conf.erb'), }
+  file { "${cobbler::apache_path}conf.d/distros.conf": content => template('cobbler/distros.conf.erb'), }
+  file { "${cobbler::apache_path}conf.d/cobbler.conf": content => template('cobbler/cobbler.conf.erb'), }
 
   # cobbler sync command
   exec { 'cobblersync':
