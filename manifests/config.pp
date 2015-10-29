@@ -7,7 +7,6 @@ class cobbler::config {
     mode   => '0644',
   }
   file { '/etc/init.d/cobblerd':
-    ensure => file,
     mode   => '0755',
     source => 'puppet:///modules/cobbler/cobbler.d',
   }
@@ -17,11 +16,9 @@ class cobbler::config {
   
   file { $cobbler::distro_path :
     ensure => directory,
-    mode   => '0755',
   }
   file { "${cobbler::distro_path}/kickstarts" :
     ensure => directory,
-    mode   => '0755',
   }
   file { '/etc/cobbler/settings':
     content => template('cobbler/settings.erb'),
@@ -66,10 +63,6 @@ class cobbler::config {
       require => Package['dhcp'],
     }
     file { '/etc/cobbler/dhcp.template':
-      ensure  => present,
-      owner   => root,
-      group   => root,
-      mode    => '0644',
       content => template('cobbler/dhcp.template.erb'),
       require => Package[$cobbler::package_name],
       notify  => Exec['cobblersync'],
