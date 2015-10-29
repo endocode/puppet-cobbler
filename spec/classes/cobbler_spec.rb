@@ -16,6 +16,37 @@ describe 'cobbler' do
       it { should contain_class('cobbler::install').that_comes_before('cobbler::config') }
       it { should contain_class('cobbler::config').that_comes_before('cobbler::service') }
       it { should contain_class('cobbler::service') }
+
+      it { should contain_exec('cobblersync') }
+      it { should contain_file('/distro/kickstarts') }
+      it { should contain_file('/distro') }
+
+      it { should contain_file('/etc/cobbler/modules.conf') }
+      it { should contain_file('/etc/cobbler/settings') }
+
+      it { should contain_package('cobbler') }
+      it { should contain_file('/etc/init.d/cobblerd') }
+      it { should contain_service('cobblerd') }
+
+      if osfamily == 'Debian'
+        it { should contain_apt__key('cobbler') }
+        it { should contain_apt__source('cobbler') }
+        it { should contain_file('/etc/apache2/conf.d/cobbler.conf') }
+        it { should contain_file('/etc/apache2/conf.d/distros.conf') }
+        it { should contain_file('/etc/apache2/conf.d/proxy_cobbler.conf') }
+      end
+
+      if osfamily == 'Redhat'
+        it { should_not contain_apt__key('cobbler') }
+        it { should_not contain_apt__source('cobbler') }
+        it { should contain_package('epel-release') }
+        it { should contain_package('syslinux') }
+        it { should contain_package('tftp-server') }
+        it { should contain_file('/etc/httpd/conf.d/cobbler.conf') }
+        it { should contain_file('/etc/httpd/conf.d/distros.conf') }
+        it { should contain_file('/etc/httpd/conf.d/proxy_cobbler.conf') }
+      end
+
     end
   end
   end
