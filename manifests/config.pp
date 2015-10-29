@@ -14,7 +14,7 @@ class cobbler::config {
   file { "${cobbler::apache_path}conf.d/proxy_cobbler.conf":
     content => template('cobbler/proxy_cobbler.conf.erb'),
   }
-  
+
   file { $cobbler::distro_path :
     ensure => directory,
     mode   => '0755',
@@ -57,7 +57,7 @@ class cobbler::config {
   }
 
   # include ISC DHCP only if we choose manage_dhcp
-  if $cobbler::manage_dhcp == '1' {
+  if $cobbler::manage_dhcp {
     package { 'dhcp':
       ensure => present,
     }
