@@ -26,27 +26,27 @@ class cobbler::params {
   $next_server_ip = $::ipaddress
   $server_ip      = $::ipaddress
   $distro_path    = '/distro'
-  $nameservers    = '127.0.0.1'
+  $nameservers    = ['127.0.0.1']
 
   # default root password for kickstart files
   $defaultrootpw = 'bettergenerateityourself'
 
   # dhcp options
-  $manage_dhcp        = 0
+  $manage_dhcp        = false
   $dhcp_option        = 'isc'
   $dhcp_interfaces    = ['eth0']
-  $dhcp_dynamic_range = 0
+  $dhcp_dynamic_range = false
   $dhcp_range_start   = 100
   $dhcp_range_end     = 200
   $dhcp_lease_default = 21600
   $dhcp_lease_max     = 43200
 
   # dns options
-  $manage_dns = 0
+  $manage_dns = false
   $dns_option = 'dnsmasq'
 
   # tftpd options
-  $manage_tftpd = 1
+  $manage_tftpd = true
   $tftpd_option = 'in_tftpd'
 
   # puppet integration setup

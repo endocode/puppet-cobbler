@@ -12,8 +12,8 @@
 #     Name of the installation package, defaults to 'cobbler'
 #
 #   - $use_epel [type: bool]
-#     Wether to install epel-release or not. Defaults to true. If not using epel
-#     you have to provide a yumrepo with the cobbler rpm by yourself.
+#     Whether to install epel-release or not. Defaults to true. If not using epel
+#     you have to provide a yum repository with the cobbler rpm by yourself.
 #
 #   - $package_ensure [type: string]
 #     Defaults to 'present', buy any version can be set
@@ -27,7 +27,7 @@
 #   - $manage_dhcp [type: bool]
 #     Wether or not to manage ISC DHCP.
 #
-#   - $dhcp_dynamic_range [type: string]
+#   - $dhcp_dynamic_range [type: bool]
 #     Enable dynamic range for DHCP server
 #
 #   - $dhcp_range_start [type: string]
@@ -39,7 +39,7 @@
 #   - $dhcp_domain_search [type: string or array of strings]
 #     (Optional) additional 'search list' of other domain names for clients
 #
-#   - $manage_dns [type: string]
+#   - $manage_dns [type: bool]
 #     Wether or not to manage DNS
 #
 #   - $dns_option [type: string]
@@ -128,11 +128,15 @@ class cobbler (
   include cobbler::install
   include cobbler::service
   include cobbler::config
+  include cobbler::dhcp
+  include cobbler::sync
 
   Class['cobbler::prerequisites']->
   Class['cobbler::install'] ->
   Class['cobbler::config'] ->
-  Class['cobbler::service']
+  Class['cobbler::service'] ->
+  Class['cobbler::dhcp'] ->
+  Class['cobbler::sync']
 
 }
 # vi:nowrap:
