@@ -30,7 +30,7 @@ subnet <%= instance_variable_get("@ipaddress_#{iface}").match(/\d+\.\d+\.\d+/) %
     option domain-search        <% if @dhcp_domain_search.kind_of?(String) -%>"<%= @dhcp_domain_search -%>"<% else -%>"<%= @dhcp_domain_search.join("\", \"") -%>"<% end -%>;
 <%- end -%>
 <% if @dhcp_dynamic_range %>
-    range dynamic-bootp         <%= instance_variable_get("@ipaddress_#{iface}").match(/\d+\.\d+\.\d+/) %>.<%= @dhcp_range_start -%> <%= instance_variable_get("@ipaddress_#{iface}").match(/\d+\.\d+\.\d+/) %>.<%= @dhcp_range_end -%>;
+    range dynamic-bootp         <%= @dhcp_range_start -%> <%= @dhcp_range_end -%>;
 <%- end -%>
     default-lease-time          <%= @dhcp_lease_default -%>;
     max-lease-time              <%= @dhcp_lease_max -%>;
