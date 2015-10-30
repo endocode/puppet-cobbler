@@ -5,10 +5,6 @@ HOSTS:
     platform: el-6-x86_64
     box : puppetlabs/centos-6.6-64-nocm
     hypervisor : vagrant
-  debian-7-x64:
-    platform: debian-7-amd64
-    box : puppetlabs/debian-7.8-64-puppet
-    hypervisor : vagrant
 CONFIG:
   type: foss
   log_level: verbose
